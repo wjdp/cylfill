@@ -63,7 +63,7 @@ let interval: number;
 onMounted(() => {
   updateFillStats();
   setupNotification();
-  interval = setInterval(updateFillStats, 100);
+  interval = window.setInterval(updateFillStats, 100);
 });
 
 onUnmounted(() => {

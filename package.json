@@ -7,6 +7,7 @@
     "tsc": "vue-tsc --noEmit",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
+    "preview:https": "PORT=2022 serve dist",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },
@@ -20,12 +21,14 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "@vue/test-utils": "^2.0.0-rc.21",
     "autoprefixer": "^10.4.7",
+    "https-localhost": "^4.7.1",
     "jsdom": "^19.0.0",
     "postcss": "^8.4.13",
     "sass": "^1.51.0",
     "tailwindcss": "^3.0.24",
     "typescript": "^4.5.4",
     "vite": "^2.9.9",
+    "vite-plugin-pwa": "^0.12.0",
     "vitest": "^0.12.6",
     "vue-tsc": "^0.34.13"
   }
