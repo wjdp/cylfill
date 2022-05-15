@@ -10,15 +10,15 @@ import {
 import AppButton from "./AppButton.vue";
 import * as t from "typed-assert";
 import { computed } from "@vue/reactivity";
-import { useWebNotification } from '@vueuse/core'
-import type { UseWebNotificationOptions } from '@vueuse/core'
+import { useTitle, useWebNotification } from "@vueuse/core";
+import type { UseWebNotificationOptions } from "@vueuse/core";
 import FillTime from "./FillTime.vue";
-
 
 const fillTimeRemaining = ref<TimePeriod>();
 const litresFilled = ref<number>();
 const currentPressure = ref<number>();
 const full = ref<boolean>(false);
+const pageTitle = useTitle();
 
 const updateFillStats = () => {
   const now = getNow();
@@ -36,26 +36,27 @@ const updateFillStats = () => {
     full.value = true;
     onFull();
   }
+  pageTitle.value = `${formatTimePeriod(fillTimeRemaining.value)} - cylfill`;
 };
 
 let notifyUser: (options: UseWebNotificationOptions) => void;
 
 const setupNotification = () => {
-  const {isSupported, show} = useWebNotification();
-  if(isSupported) {
+  const { isSupported, show } = useWebNotification();
+  if (isSupported) {
     notifyUser = show;
-  };
+  }
 };
 
-const onFull = ()=>{
-  if(notifyUser) {
+const onFull = () => {
+  if (notifyUser) {
     notifyUser({
-      title: 'Fill Complete',
-      body: 'The tank should now be full!',
+      title: "Fill Complete",
+      body: "The tank should now be full!",
       vibrate: [200, 100, 200],
     });
   }
-}
+};
 
 let interval: number;
 
@@ -67,24 +68,33 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearInterval(interval);
+  pageTitle.value = "cylfill";
 });
 
-const stopFilling =() =>{
+const stopFilling = () => {
   if (!full.value && !confirm("You sure?")) {
-    return
+    return;
   }
   fill.stopFilling();
-}
+};
 </script>
 
 <template>
-  <section class="py-4 px-2 h-full flex flex-col justify-end" v-if="fillTimeRemaining">
+  <section
+    class="flex h-full flex-col justify-end py-4 px-2"
+    v-if="fillTimeRemaining"
+  >
     <FillTime :fill-time="fillTimeRemaining" />
-    <div class="grid grid-cols-3 text-center my-6">
-      <p>started {{fill.getStartTimeFormatted()}} </p>
+    <div class="my-6 grid grid-cols-3 text-center">
+      <p>started {{ fill.getStartTimeFormatted() }}</p>
       <p>{{ currentPressure }} bar</p>
       <p>{{ litresFilled }} litres filled</p>
     </div>
-    <AppButton class="w-full" @click="stopFilling" :class="full ? 'btn-green' : 'btn-primary'">Stop filling</AppButton>
+    <AppButton
+      class="w-full"
+      @click="stopFilling"
+      :class="full ? 'btn-green' : 'btn-primary'"
+      >Stop filling</AppButton
+    >
   </section>
 </template>
