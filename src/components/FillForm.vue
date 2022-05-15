@@ -5,6 +5,7 @@ import { getTimePeriod, formatTimePeriod } from "../util/time";
 import FieldNumber from "./FieldNumber.vue";
 import AppButton from "./AppButton.vue";
 import FillTime from "./FillTime.vue";
+import AppIntro from "./AppIntro.vue";
 
 const cylinderSize = ref<number | undefined>(fill.state.cylinderSize);
 const startingPressure = ref<number | undefined>(fill.state.startingPressure);
@@ -19,7 +20,6 @@ const fillParams = computed(() => ({
 }));
 
 const onFieldInput = () => {
-  
   fill.setFillParameters(fillParams.value);
 };
 
@@ -36,7 +36,11 @@ const fillTime = computed(() => {
   if (targetPressure.value && targetPressure.value <= 0) {
     return undefined;
   }
-  if (targetPressure.value && startingPressure.value && targetPressure.value < startingPressure.value) {
+  if (
+    targetPressure.value &&
+    startingPressure.value &&
+    targetPressure.value < startingPressure.value
+  ) {
     return undefined;
   }
   if (cylinderSize.value && cylinderSize.value <= 0) {
@@ -63,9 +67,10 @@ const startFilling = () => {
 
 <template>
   <form @submit.prevent="startFilling" class="h-full">
-    <section class="flex flex-col h-full justify-end">
+    <section class="flex h-full flex-col">
       <FillTime v-if="fillTime" :fill-time="fillTime" />
-      <div class="grid grid-fill-params gap-2 bg-black bg-opacity-30 px-2 pt-3">
+      <AppIntro class="flex-auto" />
+      <div class="grid-fill-params grid gap-2 bg-black bg-opacity-30 px-2 pt-3">
         <label for="cylinderSize">Cylinder size</label>
         <FieldNumber
           id="cylinderSize"
@@ -80,14 +85,19 @@ const startFilling = () => {
 
         <label for="cylinderSize">Fill rate</label>
         <FieldNumber v-model="fillRate" @input="onFieldInput" />
-        <p>litres/minute</p>
+        <p>L/min</p>
 
         <label for="cylinderSize">Target pressure</label>
         <FieldNumber v-model="targetPressure" @input="onFieldInput" />
         <p>bar</p>
       </div>
       <div class="bg-black bg-opacity-30 px-2">
-        <AppButton class="w-full my-4" @click="startFilling" :disabled="!fillTime">Fill</AppButton>
+        <AppButton
+          class="my-4 w-full"
+          @click="startFilling"
+          :disabled="!fillTime"
+          >Fill</AppButton
+        >
       </div>
     </section>
   </form>
@@ -95,7 +105,7 @@ const startFilling = () => {
 
 <style lang="sass" scoped>
 .grid-fill-params
-    grid-template-columns: 1fr 6rem 1fr
+    grid-template-columns: 1fr 6rem 3rem
     label, p
         @apply py-4
 </style>

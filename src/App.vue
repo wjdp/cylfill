@@ -8,13 +8,12 @@ import FillForm from "./components/FillForm.vue";
 import BgFill from "./components/BgFill.vue";
 import FillStatus from "./components/FillStatus.vue";
 import fill from "./service/fill";
-
 </script>
 
 <template>
-    <BgFill />
+  <BgFill class="-z-40" />
   <main id="main">
-    <section class="max-w-md mx-auto h-full">
+    <section class="mx-auto h-full max-w-md">
       <FillStatus v-if="fill.isFilling()" />
       <FillForm v-else />
     </section>
