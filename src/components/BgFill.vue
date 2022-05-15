@@ -22,16 +22,34 @@ const updateElementHeight = () => {
   elementHeight.value = `${heightPercentage}%`;
 };
 
-watch(() => fill.state.startingPressure, updateElementHeight);
-watch(() => fill.state.targetPressure, updateElementHeight);
-onMounted(updateElementHeight);
+const bgClass = ref<string>("bg-green-900");
+const updateBgClass = () => {
+  if (fill.isFilling()) {
+    if (fill.getFillTimeRemaining(getNow()) || 0 > 0) {
+      bgClass.value = "bg-filling";
+    } else {
+      bgClass.value = "bg-full";
+    }
+  } else {
+    bgClass.value = "bg-green-900";
+  }
+};
+
+const updateAll = () => {
+  updateElementHeight();
+  updateBgClass();
+};
+
+watch(() => fill.state.startingPressure, updateAll);
+watch(() => fill.state.targetPressure, updateAll);
+onMounted(updateAll);
 
 let fillingTimer: number;
 
 const setupFillingTimer = () => {
   if (fill.state.startTime) {
-    updateElementHeight();
-    fillingTimer = window.setInterval(updateElementHeight, 30);
+    updateAll();
+    fillingTimer = window.setInterval(updateAll, 30);
   } else {
     window.clearInterval(fillingTimer);
   }
@@ -43,13 +61,36 @@ watch(() => fill.state.startTime, setupFillingTimer);
 onMounted(setupFillingTimer);
 // Cleanup
 onUnmounted(() => window.clearInterval(fillingTimer));
-
-// const bgClass = ref<string>('bg-indigo-700');
 </script>
 
 <template>
   <div
-    class="pointer-events-none fixed bottom-0 left-0 w-full bg-green-900 opacity-75"
+    id="bg-fill"
+    class="pointer-events-none fixed bottom-0 left-0 w-full opacity-75"
+    :class="bgClass"
     :style="{ height: elementHeight }"
   ></div>
 </template>
+
+<style lang="sass" scoped>
+#bg-fill
+  transition: background 0.5s ease-in-out
+
+.bg-full
+  background: linear-gradient(-45deg, #00ff00, #aaff00, #00ffaa, #ddffdd)
+  background-size: 400% 400%
+  animation: gradient 3s ease infinite
+
+.bg-filling
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)
+  background-size: 400% 400%
+  animation: gradient 15s ease infinite
+
+@keyframes gradient
+  0%
+    background-position: 0% 50%
+  50%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+</style>

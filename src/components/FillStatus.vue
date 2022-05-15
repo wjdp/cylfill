@@ -85,15 +85,17 @@ const stopFilling = () => {
     v-if="fillTimeRemaining"
   >
     <FillTime :fill-time="fillTimeRemaining" />
-    <div class="my-6 grid grid-cols-3 text-center">
+    <div
+      class="my-6 grid grid-cols-3 rounded-lg bg-black bg-opacity-40 py-2 text-center text-sm"
+    >
       <p>started {{ fill.getStartTimeFormatted() }}</p>
       <p>{{ currentPressure }} bar</p>
-      <p>{{ litresFilled }} litres filled</p>
+      <p>{{ litresFilled }} litres</p>
     </div>
     <AppButton
       class="w-full"
       @click="stopFilling"
-      :class="full ? 'btn-green' : 'btn-primary'"
+      :class="full ? 'btn-primary' : 'btn-secondary'"
       >Stop filling</AppButton
     >
   </section>

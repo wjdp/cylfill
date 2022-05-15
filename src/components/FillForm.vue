@@ -70,7 +70,7 @@ const startFilling = () => {
     <section class="flex h-full flex-col">
       <FillTime v-if="fillTime" :fill-time="fillTime" />
       <AppIntro class="flex-auto" />
-      <div class="grid-fill-params grid gap-2 bg-black bg-opacity-30 px-2 pt-3">
+      <div class="grid-fill-params form-bg grid gap-2 px-2 pt-3">
         <label for="cylinderSize">Cylinder size</label>
         <FieldNumber
           id="cylinderSize"
@@ -91,7 +91,7 @@ const startFilling = () => {
         <FieldNumber v-model="targetPressure" @input="onFieldInput" />
         <p>bar</p>
       </div>
-      <div class="bg-black bg-opacity-30 px-2">
+      <div class="form-bg px-2">
         <AppButton
           class="my-4 w-full"
           @click="startFilling"
@@ -108,4 +108,7 @@ const startFilling = () => {
     grid-template-columns: 1fr 6rem 3rem
     label, p
         @apply py-4
+
+.form-bg
+  @apply bg-black bg-opacity-50
 </style>
