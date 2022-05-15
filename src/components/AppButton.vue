@@ -12,7 +12,7 @@ withDefaults(defineProps<{ btnClass?: string }>(), { btnClass: "btn-primary" });
 .btn
   @apply rounded-lg px-2 py-3
   @apply text-white font-bold
-  @apply disabled:bg-slate-400 disabled:opacity-30 
+  @apply disabled:bg-slate-400 disabled:opacity-30
 
 .btn-primary
   @apply bg-indigo-700 hover:bg-indigo-600 active:bg-indigo-900

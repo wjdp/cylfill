@@ -7,7 +7,7 @@ defineProps<{
 
 <template>
   <div
-    class="fixed top-0 left-0 w-full h-[80vh] pointer-events-none flex-auto flex flex-col justify-center text-center text-7xl font-bold mix-blend-overlay mb-12"
+    class="pointer-events-none fixed top-0 left-0 mb-12 flex h-[80vh] w-full flex-auto flex-col justify-center text-center text-7xl font-bold mix-blend-overlay"
   >
     <p>
       {{ formatTimePeriod(fillTime) }}
