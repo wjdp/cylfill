@@ -19,6 +19,7 @@ const onInput = (event: Event) => {
 <template>
   <input
     type="number"
+    pattern="[0-9]*"
     :value="modelValue"
     @input="onInput"
     min="0"
