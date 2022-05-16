@@ -8,6 +8,9 @@ Go to **https://cylfill.wjdp.uk/** to try it out.
 
 - Runs a countdown for how long a cylinder should take to fill given: size, starting and desired pressure and fill rate.
 - Works offline, you just have to visit the URL once.
+- Stores state to local storage, you can close and re-open while using the app.
+- Stores logs of fills to history, currently only stored locally so not shared with other users.
+- Tells you the average fill rate over all time and just today.
 - Can be installed to phone home screen.
 
 ## Development
