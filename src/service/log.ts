@@ -20,7 +20,8 @@ export interface LogEntryEnhanced extends LogEntry {
 }
 
 interface LogStats {
-  averageFillRate: number;
+  fillRateToday?: number;
+  fillRateAll: number;
 }
 
 interface LogStoreState {
@@ -74,12 +75,23 @@ const log = {
 
   getLogStats: (): LogStats => {
     const entries = log.getLogs();
-    const averageFillRate =
+    const fillRateToday =
+      entries
+        // Pretty hacky way to filter by today's date
+        .filter(
+          (entry) =>
+            new Date(entry.startTime * 1000).toDateString() ===
+            new Date().toDateString()
+        )
+        .map((entry) => entry.fillRate)
+        .reduce((acc, curr) => acc + curr, 0) / entries.length || undefined;
+    const fillRateAll =
       entries
         .map((entry) => entry.fillRate)
         .reduce((acc, curr) => acc + curr, 0) / entries.length;
     return {
-      averageFillRate,
+      fillRateToday,
+      fillRateAll,
     };
   },
 };

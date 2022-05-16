@@ -40,15 +40,22 @@ const formatDuration = (d: number) => formatTimePeriod(getTimePeriod(d));
     </ol>
     <footer
       v-if="log.hasLogs()"
-      class="grid grid-cols-2 bg-slate-800 p-2 text-white"
+      class="grid grid-cols-3 bg-slate-800 p-2 text-white"
     >
       <div>
         <p class="text-xs">Number of logs</p>
         <p>{{ logEntries.length }}</p>
       </div>
       <div>
-        <p class="text-xs">Average fill rate</p>
-        <p>{{ Math.round(logStats.averageFillRate) }} L/m</p>
+        <p class="text-xs">Fill rate today</p>
+        <p v-if="logStats.fillRateToday">
+          {{ Math.round(logStats.fillRateToday) }} L/m
+        </p>
+        <p v-else class="font-light">—</p>
+      </div>
+      <div>
+        <p class="text-xs">Lifetime fill rate</p>
+        <p>{{ Math.round(logStats.fillRateAll) }} L/m</p>
       </div>
     </footer>
   </main>
