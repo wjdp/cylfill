@@ -113,16 +113,16 @@ const startFilling = () => {
         />
         <p>bar</p>
       </div>
-      <div class="form-bg flex flex-row px-2">
+      <div class="form-bg flex flex-row px-2 py-6">
         <AppButton
           v-if="log.hasLogs()"
-          class="btn-secondary my-4 mt-6 mr-2 w-full flex-[1]"
+          class="btn-secondary mr-2 w-full flex-[1]"
           @click="showLogs = true"
           >Logs</AppButton
         >
         <AppButton
           type="submit"
-          class="my-4 mt-6 w-full flex-[3]"
+          class="w-full flex-[3]"
           @click="startFilling"
           :disabled="!fillTime"
           >Fill</AppButton
