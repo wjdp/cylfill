@@ -14,7 +14,7 @@ import fill from "./service/fill";
 
 <template>
   <BgFill class="-z-40" />
-  <main id="main">
+  <main id="main" class="select-none">
     <section class="mx-auto h-full max-w-md">
       <FillStatus v-if="fill.isFilling()" />
       <FillForm v-else />

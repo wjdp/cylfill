@@ -13,6 +13,7 @@ import { computed } from "@vue/reactivity";
 import { useTitle, useWebNotification } from "@vueuse/core";
 import type { UseWebNotificationOptions } from "@vueuse/core";
 import FillTime from "./FillTime.vue";
+import log from "../service/log";
 
 const fillTimeRemaining = ref<TimePeriod>();
 const litresFilled = ref<number>();
@@ -55,10 +56,42 @@ onUnmounted(() => {
   pageTitle.value = "cylfill";
 });
 
-const stopFilling = () => {
-  if (!full.value && !confirm("You sure?")) {
+const cancelFilling = () => {
+  if (
+    !confirm(
+      "Are you sure you want to cancel? This won't save this fill in the logs."
+    )
+  ) {
     return;
   }
+  fill.stopFilling();
+};
+
+const PROMPT_AT_DELTA = 50;
+
+const finishFilling = () => {
+  t.isNumber(fill.state.targetPressure);
+  t.isNumber(currentPressure.value);
+  const targetDelta = Math.abs(
+    fill.state.targetPressure - currentPressure.value
+  );
+  if (
+    targetDelta > PROMPT_AT_DELTA &&
+    !confirm("You sure? This will save this fill in the logs.")
+  ) {
+    return;
+  }
+  t.isNumber(fill.state.cylinderSize);
+  t.isNumber(fill.state.startingPressure);
+  t.isNumber(fill.state.targetPressure);
+  t.isNumber(fill.state.startTime);
+  log.addLogEntry({
+    cylinderSize: fill.state.cylinderSize,
+    startingPressure: fill.state.startingPressure,
+    targetPressure: fill.state.targetPressure,
+    startTime: fill.state.startTime,
+    endTime: getNow(),
+  });
   fill.stopFilling();
 };
 </script>
@@ -76,6 +109,20 @@ const stopFilling = () => {
       <p>{{ currentPressure }} bar</p>
       <p>{{ litresFilled }} litres</p>
     </div>
-    <AppButton class="w-full" @click="stopFilling">Stop filling</AppButton>
+    <div>
+      <div class="form-bg flex flex-row px-2">
+        <AppButton
+          class="btn-secondary my-4 mt-6 mr-2 w-full flex-[1]"
+          @click="cancelFilling"
+          >Cancel</AppButton
+        >
+        <AppButton
+          type="submit"
+          class="my-4 mt-6 w-full flex-[3]"
+          @click="finishFilling"
+          >Finish Filling</AppButton
+        >
+      </div>
+    </div>
   </section>
 </template>

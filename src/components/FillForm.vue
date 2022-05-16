@@ -6,6 +6,10 @@ import FieldNumber from "./FieldNumber.vue";
 import AppButton from "./AppButton.vue";
 import FillTime from "./FillTime.vue";
 import AppIntro from "./AppIntro.vue";
+import FillLogs from "./FillLogs.vue";
+import log from "../service/log";
+
+const showLogs = ref(false);
 
 const cylinderSize = ref<number | undefined>(fill.state.cylinderSize);
 const startingPressure = ref<number | undefined>(fill.state.startingPressure);
@@ -21,6 +25,10 @@ const fillParams = computed(() => ({
 
 const onFieldInput = () => {
   fill.setFillParameters(fillParams.value);
+};
+
+const onFieldFocus = () => {
+  window.setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 100);
 };
 
 const fillTime = computed(() => {
@@ -66,6 +74,7 @@ const startFilling = () => {
 </script>
 
 <template>
+  <FillLogs v-if="showLogs" @close="showLogs = false" />
   <form @submit.prevent="startFilling" class="h-full">
     <section class="flex h-full flex-col">
       <FillTime v-if="fillTime" :fill-time="fillTime" />
@@ -76,24 +85,44 @@ const startFilling = () => {
           id="cylinderSize"
           v-model="cylinderSize"
           @input="onFieldInput"
+          @focus="onFieldFocus"
         />
         <p>litres</p>
 
         <label for="cylinderSize">Starting pressure</label>
-        <FieldNumber v-model="startingPressure" @input="onFieldInput" />
+        <FieldNumber
+          v-model="startingPressure"
+          @input="onFieldInput"
+          @focus="onFieldFocus"
+        />
         <p>bar</p>
 
         <label for="cylinderSize">Fill rate</label>
-        <FieldNumber v-model="fillRate" @input="onFieldInput" />
+        <FieldNumber
+          v-model="fillRate"
+          @input="onFieldInput"
+          @focus="onFieldFocus"
+        />
         <p>L/min</p>
 
         <label for="cylinderSize">Target pressure</label>
-        <FieldNumber v-model="targetPressure" @input="onFieldInput" />
+        <FieldNumber
+          v-model="targetPressure"
+          @input="onFieldInput"
+          @focus="onFieldFocus"
+        />
         <p>bar</p>
       </div>
-      <div class="form-bg px-2">
+      <div class="form-bg flex flex-row px-2">
         <AppButton
-          class="my-4 mt-6 w-full"
+          v-if="log.hasLogs()"
+          class="btn-secondary my-4 mt-6 mr-2 w-full flex-[1]"
+          @click="showLogs = true"
+          >Logs</AppButton
+        >
+        <AppButton
+          type="submit"
+          class="my-4 mt-6 w-full flex-[3]"
           @click="startFilling"
           :disabled="!fillTime"
           >Fill</AppButton

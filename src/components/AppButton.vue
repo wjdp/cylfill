@@ -3,7 +3,7 @@ withDefaults(defineProps<{ btnClass?: string }>(), { btnClass: "btn-primary" });
 </script>
 
 <template>
-  <button :class="btnClass" class="btn">
+  <button :class="btnClass" class="btn" type="button">
     <slot />
   </button>
 </template>
