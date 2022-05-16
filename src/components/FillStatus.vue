@@ -13,6 +13,7 @@ import { computed } from "@vue/reactivity";
 import { useTitle, useWebNotification } from "@vueuse/core";
 import type { UseWebNotificationOptions } from "@vueuse/core";
 import FillTime from "./FillTime.vue";
+import log from "../service/log";
 
 const fillTimeRemaining = ref<TimePeriod>();
 const litresFilled = ref<number>();
@@ -59,6 +60,17 @@ const stopFilling = () => {
   if (!full.value && !confirm("You sure?")) {
     return;
   }
+  t.isNumber(fill.state.cylinderSize);
+  t.isNumber(fill.state.startingPressure);
+  t.isNumber(fill.state.targetPressure);
+  t.isNumber(fill.state.startTime);
+  log.addLogEntry({
+    cylinderSize: fill.state.cylinderSize,
+    startingPressure: fill.state.startingPressure,
+    targetPressure: fill.state.targetPressure,
+    startTime: fill.state.startTime,
+    endTime: getNow(),
+  });
   fill.stopFilling();
 };
 </script>
