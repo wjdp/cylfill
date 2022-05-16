@@ -91,15 +91,14 @@ const log = {
       }))
       .reverse(),
 
-  getLogStats: (): LogStats => {
+  getLogStats: (now: number): LogStats => {
+    const nowDay = dayjs(new Date(now * 1000)).startOf("day");
     const entries = log.getLogs();
-    const todayEntries = entries
-      // Pretty hacky way to filter by today's date
-      .filter(
-        (entry) =>
-          new Date(entry.startTime * 1000).toDateString() ===
-          new Date().toDateString()
-      );
+    const todayEntries = entries.filter((entry) =>
+      dayjs(new Date(entry.startTime * 1000))
+        .startOf("day")
+        .isSame(nowDay)
+    );
     const fillRateToday =
       todayEntries
         .map((entry) => entry.fillRate)

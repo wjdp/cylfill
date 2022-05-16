@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { describe, it, expect, beforeEach } from "vitest";
 import { getNow } from "../util/time";
 import log, { LogEntry } from "./log";
@@ -110,7 +111,7 @@ describe("log service", () => {
   });
 
   it("has empty log stats", () => {
-    expect(log.getLogStats()).toEqual({
+    expect(log.getLogStats(getNow())).toEqual({
       logCount: 0,
       fillRateToday: undefined,
       fillRateAll: undefined,
@@ -119,7 +120,7 @@ describe("log service", () => {
 
   it("duplicate entries give same stats", () => {
     addLogEntry(20 * 60);
-    expect(log.getLogStats()).toEqual({
+    expect(log.getLogStats(getNow())).toEqual({
       logCount: 1,
       fillRateToday: 108,
       fillRateAll: 108,
@@ -127,7 +128,7 @@ describe("log service", () => {
     addLogEntry(20 * 60);
     addLogEntry(20 * 60);
     addLogEntry(20 * 60);
-    expect(log.getLogStats()).toEqual({
+    expect(log.getLogStats(getNow())).toEqual({
       logCount: 4,
       fillRateToday: 108,
       fillRateAll: 108,
@@ -135,9 +136,16 @@ describe("log service", () => {
   });
 
   it("combines multiple entries into stats", () => {
-    addLogEntry(20 * 60);
-    addLogEntry(18 * 60);
-    expect(log.getLogStats()).toEqual({
+    const now = dayjs("2022-05-17T00:25:00+00:10");
+    addLogEntry(0, {
+      startTime: now.subtract(20, "minutes").unix(),
+      endTime: now.unix(),
+    });
+    addLogEntry(0, {
+      startTime: now.subtract(18, "minutes").unix(),
+      endTime: now.unix(),
+    });
+    expect(log.getLogStats(now.unix())).toEqual({
       logCount: 2,
       fillRateToday: 114,
       fillRateAll: 114,
@@ -145,12 +153,13 @@ describe("log service", () => {
   });
 
   it("should return undefined for fillRateToday if no logs today", () => {
-    const yesterday = getNow() - ONE_DAY;
+    const now = dayjs("2022-05-17T00:25:00+00:10");
+    const yesterday = now.subtract(1, "day");
     addLogEntry(0, {
-      startTime: yesterday - 20 * 60,
-      endTime: yesterday,
+      startTime: yesterday.subtract(20, "minutes").unix(),
+      endTime: yesterday.unix(),
     });
-    expect(log.getLogStats()).toEqual({
+    expect(log.getLogStats(now.unix())).toEqual({
       logCount: 1,
       fillRateToday: undefined,
       fillRateAll: 108,
@@ -158,13 +167,17 @@ describe("log service", () => {
   });
 
   it("should return combined stats and stats for today only", () => {
-    const yesterday = getNow() - ONE_DAY;
+    const now = dayjs("2022-05-17T00:25:00+00:10");
+    const yesterday = now.subtract(1, "day");
     addLogEntry(0, {
-      startTime: yesterday - 20 * 60,
-      endTime: yesterday,
+      startTime: yesterday.subtract(20, "minutes").unix(),
+      endTime: yesterday.unix(),
     });
-    addLogEntry(18 * 60);
-    expect(log.getLogStats()).toEqual({
+    addLogEntry(0, {
+      startTime: now.subtract(18, "minutes").unix(),
+      endTime: now.unix(),
+    });
+    expect(log.getLogStats(now.unix())).toEqual({
       logCount: 2,
       fillRateToday: 120,
       fillRateAll: 114,

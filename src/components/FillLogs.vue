@@ -3,13 +3,14 @@ import { computed } from "vue";
 import log from "../service/log";
 import FillLogItem from "./FillLogItem.vue";
 import FillLogDownload from "./FillLogDownload.vue";
+import { getNow } from "../util/time";
 
 defineEmits<{
   (e: "close"): void;
 }>();
 
 const logEntries = computed(log.getLogs);
-const logStats = computed(log.getLogStats);
+const logStats = computed(() => log.getLogStats(getNow()));
 </script>
 
 <template>
