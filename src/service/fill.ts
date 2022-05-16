@@ -1,5 +1,6 @@
 import { reactive, readonly } from "@vue/reactivity";
 import * as t from "typed-assert";
+import * as _ from "lodash";
 import { getNow } from "../util/time";
 
 const LOCAL_STORAGE_KEY = "cylfill";
@@ -7,6 +8,7 @@ const LOCAL_STORAGE_VERSION = 1;
 
 const getLocalStorageKey = () =>
   `${LOCAL_STORAGE_KEY}-${LOCAL_STORAGE_VERSION}`;
+
 interface FillStoreState {
   cylinderSize?: number;
   startingPressure?: number;
@@ -16,15 +18,16 @@ interface FillStoreState {
   endTime?: number;
 }
 
-const state = reactive({
+const DEFAULT_STORE_STATE = {
   cylinderSize: 12,
   startingPressure: undefined,
   fillRate: 110,
   targetPressure: 232,
   startTime: undefined,
   endTime: undefined,
-} as FillStoreState);
+} as FillStoreState;
 
+const state = reactive({ ...DEFAULT_STORE_STATE });
 export interface FillParameters {
   cylinderSize: number; // in liters
   startingPressure: number; // in bar
@@ -45,6 +48,9 @@ export function assertFillParameters(
   t.isNumber(input.startingPressure, "startingPressure");
   t.isNumber(input.fillRate, "fillRate");
   t.isNumber(input.targetPressure, "targetPressure");
+  if (input.startingPressure > input.targetPressure) {
+    throw new Error("starting pressure must be less than target pressure");
+  }
 }
 
 // Return number of seconds to fill the tank to the target pressure
@@ -84,6 +90,12 @@ export const guesstimatePressure = (
 
 const fill = {
   state: readonly(state),
+  resetStore: () => {
+    Object.assign(state, _.cloneDeep(DEFAULT_STORE_STATE));
+  },
+  setFillParameters: (params: Partial<FillParameters>) => {
+    Object.assign(state, params);
+  },
   getFillParameters: (): FillParameters => {
     try {
       assertFillParameters(state);
@@ -97,14 +109,21 @@ const fill = {
       targetPressure: state.targetPressure,
     };
   },
-  startFilling: () => {
+  startFilling: (): number => {
+    try {
+      assertFillParameters({ ...state });
+    } catch {
+      throw new Error("Fill parameters are not valid");
+    }
     state.startTime = getNow();
     state.endTime =
       state.startTime + calculateFillTime(fill.getFillParameters());
     fill.writeToLocalStorage();
+    return state.startTime;
   },
   stopFilling: () => {
     state.startTime = undefined;
+    state.endTime = undefined;
     state.startingPressure = undefined;
     fill.writeToLocalStorage();
   },
@@ -139,14 +158,11 @@ const fill = {
       return guesstimatePressure(
         fill.getFillParameters(),
         state.startTime,
-        getNow()
+        now
       );
     } else {
       return state.startingPressure;
     }
-  },
-  setFillParameters: (params: Partial<FillParameters>) => {
-    Object.assign(state, params);
   },
   writeToLocalStorage: () => {
     localStorage.setItem(getLocalStorageKey(), JSON.stringify(state));
