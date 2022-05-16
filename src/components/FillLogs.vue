@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import log from "../service/log";
 import FillLogItem from "./FillLogItem.vue";
+import FillLogDownload from "./FillLogDownload.vue";
 
 defineEmits<{
   (e: "close"): void;
@@ -19,8 +20,11 @@ const logStats = computed(log.getLogStats);
       class="grid grid-cols-2 border-b border-black border-opacity-20 bg-white font-bold"
     >
       <h1 class="px-2 py-3 text-2xl">📕 Fill Logs</h1>
-      <div class="justify-self-end">
-        <button @click="$emit('close')" class="px-2 py-1.5 text-4xl">×</button>
+      <div class="justify-self-end py-3">
+        <FillLogDownload class="mr-1 px-1 align-middle" />
+        <button @click="$emit('close')" class="px-2 align-middle">
+          <img src="../assets/close.svg" alt="Close" class="h-8 w-8" />
+        </button>
       </div>
     </header>
     <ol class="flex-auto overflow-y-scroll">

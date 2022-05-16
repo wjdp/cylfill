@@ -1,6 +1,7 @@
 import { reactive, readonly } from "vue";
 import * as _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
+import dayjs from "dayjs";
 
 const LOCAL_STORAGE_KEY = "cylfill-log";
 const LOCAL_STORAGE_VERSION = 1;
@@ -113,6 +114,32 @@ const log = {
       fillRateToday,
       fillRateAll,
     };
+  },
+
+  getExportText(): string {
+    const HEADERS = [
+      "ID",
+      "Start Time",
+      "End Time",
+      "Cylinder Size (L)",
+      "Starting Pressure (bar)",
+      "Target Pressure (bar)",
+      "Duration (seconds)",
+      "Fill Rate (L/min)",
+    ];
+    const rows = log
+      .getLogs()
+      .map((entry) => [
+        entry.id,
+        dayjs(new Date(entry.startTime * 1000)).format("YYYY-MM-DD HH:mm:ss"),
+        dayjs(new Date(entry.endTime * 1000)).format("YYYY-MM-DD HH:mm:ss"),
+        entry.cylinderSize,
+        entry.startingPressure,
+        entry.targetPressure,
+        entry.duration.toFixed(1),
+        entry.fillRate.toFixed(2),
+      ]);
+    return [HEADERS, ...rows].map((row) => row.join(",")).join("\n");
   },
 };
 

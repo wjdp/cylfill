@@ -170,4 +170,32 @@ describe("log service", () => {
       fillRateAll: 114,
     });
   });
+
+  const HEADER_LINE_RENDERED =
+    "ID,Start Time,End Time,Cylinder Size (L),Starting Pressure (bar),Target Pressure (bar),Duration (seconds),Fill Rate (L/min)";
+
+  it("should generate a blank csv with no logs", async () => {
+    expect(log.getExportText()).toEqual(HEADER_LINE_RENDERED);
+  });
+
+  it("should generate a csv with data in it", async () => {
+    const now = 1500000000;
+    const entry1 = addLogEntry(0, {
+      startTime: now - ONE_DAY - 20 * 60,
+      endTime: now - ONE_DAY,
+    });
+    const entry2 = addLogEntry(0, {
+      startTime: now - 18 * 60,
+      endTime: now,
+    });
+    const lines = log.getExportText().split("\n");
+    expect(lines[0]).toEqual(HEADER_LINE_RENDERED);
+    // Entry 2 before entry 1 as in reverse chronological order
+    expect(lines[1]).toEqual(
+      `${entry2.id},2017-07-14 03:22:00,2017-07-14 03:40:00,12,50,230,1080.0,120.00`
+    );
+    expect(lines[2]).toEqual(
+      `${entry1.id},2017-07-13 03:20:00,2017-07-13 03:40:00,12,50,230,1200.0,108.00`
+    );
+  });
 });
