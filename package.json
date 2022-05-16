@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "tsc": "vue-tsc --noEmit",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "VITE_COMMIT_SHA=$CF_PAGES_COMMIT_SHA vite build",
     "preview": "vite preview",
     "preview:https": "PORT=2022 serve dist",
     "test": "vitest",

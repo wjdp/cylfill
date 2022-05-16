@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useWebNotification } from "@vueuse/core";
+const version = import.meta.env.VITE_COMMIT_SHA?.slice(0, 6) || "unknown";
 </script>
 
 <template>
@@ -7,6 +8,7 @@ import { useWebNotification } from "@vueuse/core";
     <h1 class="my-8 text-center text-8xl font-bold">
       <span class="h-gradient">cylfill</span>
     </h1>
+    <p class="text-center text-sm text-slate-800">{{ version }}</p>
   </section>
 </template>
 
