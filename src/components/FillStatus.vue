@@ -86,17 +86,12 @@ const stopFilling = () => {
   >
     <FillTime :fill-time="fillTimeRemaining" />
     <div
-      class="my-6 grid grid-cols-3 rounded-lg bg-black bg-opacity-40 py-2 text-center text-sm"
+      class="my-6 grid grid-cols-3 rounded-lg bg-black bg-opacity-[15%] py-2 text-center text-sm"
     >
       <p>started {{ fill.getStartTimeFormatted() }}</p>
       <p>{{ currentPressure }} bar</p>
       <p>{{ litresFilled }} litres</p>
     </div>
-    <AppButton
-      class="w-full"
-      @click="stopFilling"
-      :class="full ? 'btn-primary' : 'btn-secondary'"
-      >Stop filling</AppButton
-    >
+    <AppButton class="w-full" @click="stopFilling">Stop filling</AppButton>
   </section>
 </template>

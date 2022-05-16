@@ -93,7 +93,7 @@ const startFilling = () => {
       </div>
       <div class="form-bg px-2">
         <AppButton
-          class="my-4 w-full"
+          class="my-4 mt-6 w-full"
           @click="startFilling"
           :disabled="!fillTime"
           >Fill</AppButton
@@ -107,7 +107,9 @@ const startFilling = () => {
 .grid-fill-params
     grid-template-columns: 1fr 6rem 3rem
     label, p
-        @apply py-4
+      @apply py-4
+    p
+      @apply font-extralight
 
 .form-bg
   @apply bg-black bg-opacity-50

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import "@fontsource/inter";
+import "@fontsource/inter/700.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/200.css";
 import "./tailwind.css";
 
 import FillForm from "./components/FillForm.vue";
