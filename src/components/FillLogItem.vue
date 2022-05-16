@@ -30,11 +30,7 @@ onMounted(() =>
 </script>
 
 <template>
-  <li
-    :key="entry.startTime"
-    class="bg-white py-3 px-2"
-    ref="itemElementHook"
-  >
+  <li :key="entry.startTime" class="bg-white py-3 px-2" ref="itemElementHook">
     <div class="text-xs text-gray-600">
       {{ formatDateTime(entry.startTime) }}
     </div>

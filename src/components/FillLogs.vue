@@ -13,7 +13,7 @@ const logStats = computed(log.getLogStats);
 
 <template>
   <main
-    class="fixed top-0 left-0 z-10 flex h-full w-full flex-col bg-slate-400 text-black"
+    class="left-50 fixed top-0 z-10 mx-auto flex h-full w-full max-w-md flex-col bg-slate-400 text-black"
   >
     <header
       class="grid grid-cols-2 border-b border-black border-opacity-20 bg-white font-bold"
