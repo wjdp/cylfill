@@ -39,30 +39,14 @@ const updateFillStats = () => {
   pageTitle.value = `${formatTimePeriod(fillTimeRemaining.value)} - cylfill`;
 };
 
-let notifyUser: (options: UseWebNotificationOptions) => void;
-
-const setupNotification = () => {
-  const { isSupported, show } = useWebNotification();
-  if (isSupported) {
-    notifyUser = show;
-  }
-};
-
 const onFull = () => {
-  if (notifyUser) {
-    notifyUser({
-      title: "Fill Complete",
-      body: "The tank should now be full!",
-      vibrate: [200, 100, 200],
-    });
-  }
+  // TODO: Notify user that fill is complete
 };
 
 let interval: number;
 
 onMounted(() => {
   updateFillStats();
-  setupNotification();
   interval = window.setInterval(updateFillStats, 100);
 });
 
