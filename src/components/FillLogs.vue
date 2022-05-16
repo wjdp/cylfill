@@ -1,22 +1,14 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import log from "../service/log";
-import { formatTimePeriod, getTimePeriod } from "../util/time";
 import FillLogItem from "./FillLogItem.vue";
 
 defineEmits<{
   (e: "close"): void;
 }>();
 
-const formatDateTime = (d: number) => {
-  const date = new Date(d * 1000);
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-};
-
 const logEntries = computed(log.getLogs);
 const logStats = computed(log.getLogStats);
-
-const formatDuration = (d: number) => formatTimePeriod(getTimePeriod(d));
 </script>
 
 <template>
@@ -34,7 +26,7 @@ const formatDuration = (d: number) => formatTimePeriod(getTimePeriod(d));
     <ol class="flex-auto overflow-y-scroll">
       <FillLogItem
         v-for="entry in logEntries"
-        :key="entry.startTime"
+        :key="entry.id"
         :entry="entry"
       ></FillLogItem>
     </ol>
@@ -55,7 +47,10 @@ const formatDuration = (d: number) => formatTimePeriod(getTimePeriod(d));
       </div>
       <div>
         <p class="text-xs">Lifetime fill rate</p>
-        <p>{{ Math.round(logStats.fillRateAll) }} L/m</p>
+        <p v-if="logStats.fillRateAll">
+          {{ Math.round(logStats.fillRateAll) }} L/m
+        </p>
+        <p v-else class="font-light">—</p>
       </div>
     </footer>
   </main>

@@ -8,7 +8,7 @@ const version = import.meta.env.VITE_COMMIT_SHA?.slice(0, 6) || "unknown";
     <h1 class="my-8 text-center text-8xl font-bold">
       <span class="h-gradient">cylfill</span>
     </h1>
-    <p class="text-slate-800 text-center text-sm">{{ version }}</p>
+    <p class="text-center text-sm text-slate-800">{{ version }}</p>
   </section>
 </template>
 

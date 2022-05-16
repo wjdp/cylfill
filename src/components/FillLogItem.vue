@@ -22,7 +22,7 @@ const onLongPressCallbackHook = (e: PointerEvent) => {
   if (!confirm("Delete?")) {
     return;
   }
-  log.deleteLogEntry(props.entry.startTime);
+  log.deleteLogEntry(props.entry.id);
 };
 onMounted(() =>
   onLongPress(itemElementHook, onLongPressCallbackHook, { delay: 300 })
