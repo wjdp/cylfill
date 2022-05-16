@@ -2,6 +2,8 @@
 
 A tiny app to help with filling air cylinders.
 
+Go to **https://cylfill.wjdp.uk/** to try it out.
+
 ## Features
 
 - Runs a countdown for how long a cylinder should take to fill given: size, starting and desired pressure and fill rate.
@@ -26,3 +28,9 @@ This project uses [pre-commit](https://pre-commit.com/), ensure you have it inst
 ## Deployment
 
 This repo deploys its master branch to https://cylfill.wjdp.uk/ using [Cloudflare Pages](https://pages.cloudflare.com/). Branches are deployed to `<branch name>.cylfill.pages.dev`.
+
+As the app is aggressively cached by a service worker, used for offline support, you won't get the new version straight away. To do so try the following:
+
+1. Refresh the app
+2. Close every instance of the app you have open
+3. Re-open the app
