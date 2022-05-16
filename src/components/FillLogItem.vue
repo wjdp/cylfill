@@ -32,7 +32,7 @@ onMounted(() =>
 <template>
   <li
     :key="entry.startTime"
-    class="border-b border-black border-opacity-20 bg-white py-3 px-2"
+    class="bg-white py-3 px-2"
     ref="itemElementHook"
   >
     <div class="text-xs text-gray-600">
