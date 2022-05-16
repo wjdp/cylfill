@@ -1,12 +1,32 @@
 <script lang="ts" setup>
-import { useWebNotification } from "@vueuse/core";
+import { GITHUB_PROJECT_URL } from "../constants";
+
 const version = import.meta.env.VITE_COMMIT_SHA?.slice(0, 6) || "unknown";
 </script>
 
 <template>
   <section class="py-2 px-2">
     <h1 class="my-8 text-center text-8xl font-bold">
-      <span class="h-gradient">cylfill</span>
+      <span class="h-gradient relative">
+        <a
+          :href="GITHUB_PROJECT_URL"
+          target="_blank"
+          class="absolute -right-5 top-0 block h-5 w-5"
+        >
+          <!-- Double stack to get mix-blend and brighten a touch -->
+          <img
+            src="../assets/github.svg"
+            alt="GitHub"
+            class="absolute top-0 left-0 h-full w-full mix-blend-overlay"
+          />
+          <img
+            src="../assets/github.svg"
+            alt="GitHub"
+            class="absolute top-0 left-0 h-full w-full opacity-5"
+          />
+        </a>
+        cylfill
+      </span>
     </h1>
     <p class="text-center text-sm text-slate-800">{{ version }}</p>
   </section>
