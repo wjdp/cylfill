@@ -27,6 +27,9 @@ html
   @apply h-full
 body
   @apply bg-slate-900 text-white
+  // Disable pull down to refresh
+  // See: https://stackoverflow.com/questions/52342200/how-to-prevent-pull-to-refresh-in-pwa-progressive-web-apps
+  overscroll-behavior-y: contain
 body, #app, #main
   @apply h-full
 </style>
