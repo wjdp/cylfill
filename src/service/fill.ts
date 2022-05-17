@@ -137,6 +137,13 @@ const fill = {
       minute: "numeric",
     });
   },
+  getEndTimeFormatted: (): string | undefined => {
+    if (!state.endTime) return undefined;
+    return new Date(state.endTime * 1000).toLocaleTimeString("en-GB", {
+      hour: "numeric",
+      minute: "numeric",
+    });
+  },
   getFillTimeRemaining(now: number): number | undefined {
     if (state.endTime === undefined) {
       return undefined;

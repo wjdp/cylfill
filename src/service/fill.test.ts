@@ -254,8 +254,9 @@ describe("fill store", () => {
     expect(fill.isFilling()).toBe(false);
   });
 
-  it("gives a formatted start time", () => {
+  it("gives a formatted start and end time", () => {
     expect(fill.getStartTimeFormatted()).toBeUndefined();
+    expect(fill.getEndTimeFormatted()).toBeUndefined();
     fill.setFillParameters({
       cylinderSize: 12,
       startingPressure: 50,
@@ -264,6 +265,7 @@ describe("fill store", () => {
     });
     fill.startFilling();
     expect(fill.getStartTimeFormatted()).toBeTypeOf("string");
+    expect(fill.getEndTimeFormatted()).toBeTypeOf("string");
   });
 
   it("gives a fill time remaining", () => {

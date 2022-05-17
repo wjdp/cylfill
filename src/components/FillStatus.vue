@@ -98,18 +98,25 @@ const finishFilling = () => {
 
 <template>
   <section
-    class="flex h-full flex-col justify-end px-2"
+    class="flex h-full flex-col justify-end px-4"
     v-if="fillTimeRemaining"
   >
     <FillTime :fill-time="fillTimeRemaining" />
     <div
-      class="my-3 grid grid-cols-3 rounded-lg bg-black bg-opacity-[15%] py-2 text-center text-sm"
+      class="my-3 grid grid-cols-3 gap-1 rounded-lg bg-black bg-opacity-[10%] py-2 text-center text-sm"
     >
-      <p>started {{ fill.getStartTimeFormatted() }}</p>
+      <p><span class='font-light'>started</span> {{ fill.getStartTimeFormatted() }}</p>
       <p>{{ currentPressure }} bar</p>
       <p>{{ litresFilled }} litres</p>
+      <p><span class='font-light'>finish at</span> {{ fill.getEndTimeFormatted() }}</p>
+      <p><span class='font-light'>fill to</span> {{ fill.state.targetPressure }}</p>
+      <p>
+        {{ fill.state.cylinderSize }}L
+        <span class='font-light'>@</span>
+        {{fill.state.fillRate}} L/m
+        </p>
     </div>
-    <div class="my-3 mb-6 flex flex-row px-2">
+    <div class="my-3 mb-6 flex flex-row">
       <AppButton
         class="btn-secondary mr-2 w-full flex-[1]"
         @click="cancelFilling"
