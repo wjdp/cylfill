@@ -5,12 +5,20 @@ import FillLogItem from "./FillLogItem.vue";
 import FillLogDownload from "./FillLogDownload.vue";
 import { getNow } from "../util/time";
 
-defineEmits<{
+const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
 const logEntries = computed(log.getLogs);
 const logStats = computed(() => log.getLogStats(getNow()));
+
+const deleteAllLogs = () => {
+  if(confirm("Delete all fill logs? This cannot be undone.")) {
+    log.resetStore();
+    log.writeToLocalStorage();
+    emit("close");
+  }
+};
 </script>
 
 <template>
@@ -22,7 +30,10 @@ const logStats = computed(() => log.getLogStats(getNow()));
     >
       <h1 class="px-2 py-3 text-2xl">📕 Fill Logs</h1>
       <div class="justify-self-end py-3">
-        <FillLogDownload class="mr-1 px-1 align-middle" />
+        <button @click="deleteAllLogs" class="px-1 mx-2 align-middle">
+          <img src="../assets/trash.svg" alt="Close" class="h-6 w-6" />
+        </button>
+        <FillLogDownload class="mx-2 px-1 align-middle" />
         <button @click="$emit('close')" class="px-2 align-middle">
           <img src="../assets/close.svg" alt="Close" class="h-8 w-8" />
         </button>

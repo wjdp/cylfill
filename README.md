@@ -37,3 +37,7 @@ As the app is aggressively cached by a service worker, used for offline support,
 1. Refresh the app
 2. Close every instance of the app you have open
 3. Re-open the app
+
+# Acknowledgements
+
+- Icons by [Tabler](https://tabler.io/)
