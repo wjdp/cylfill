@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { GITHUB_PROJECT_URL } from "../constants";
+import { areDebugFeaturesEnabled } from "../util/debug";
 
 const version = import.meta.env.VITE_COMMIT_SHA?.slice(0, 6) || "unknown";
 </script>
@@ -29,6 +30,12 @@ const version = import.meta.env.VITE_COMMIT_SHA?.slice(0, 6) || "unknown";
       </span>
     </h1>
     <p class="text-center text-sm text-slate-800">{{ version }}</p>
+    <p
+      v-if="areDebugFeaturesEnabled()"
+      class="text-center text-sm text-yellow-300 opacity-25"
+    >
+      with debug features!
+    </p>
   </section>
 </template>
 

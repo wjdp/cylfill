@@ -2,6 +2,8 @@ import { reactive, readonly } from "vue";
 import * as _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
+import { choose, numberInRange } from "../util/random";
+import { calculateFillTime } from "./fill";
 
 const LOCAL_STORAGE_KEY = "cylfill-log";
 const LOCAL_STORAGE_VERSION = 1;
@@ -139,6 +141,27 @@ const log = {
         entry.fillRate.toFixed(2),
       ]);
     return [HEADERS, ...rows].map((row) => row.join(",")).join("\n");
+  },
+
+  generateFakeLogEntry: () => {
+    const startTime = 0;
+    const cylinderSize = choose([12, 12, 12, 12, 15, 7, 24]);
+    const startingPressure = numberInRange(20, 150);
+    const targetPressure = 232;
+    const fillRate = numberInRange(90, 150);
+    const duration = calculateFillTime({
+      cylinderSize,
+      startingPressure,
+      targetPressure,
+      fillRate,
+    });
+    return log.addLogEntry({
+      cylinderSize,
+      startingPressure,
+      targetPressure,
+      startTime,
+      endTime: startTime + duration,
+    });
   },
 };
 

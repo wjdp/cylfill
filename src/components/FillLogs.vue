@@ -4,6 +4,7 @@ import log from "../service/log";
 import FillLogItem from "./FillLogItem.vue";
 import FillLogDownload from "./FillLogDownload.vue";
 import { getNow } from "../util/time";
+import { areDebugFeaturesEnabled } from "../util/debug";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -13,10 +14,16 @@ const logEntries = computed(log.getLogs);
 const logStats = computed(() => log.getLogStats(getNow()));
 
 const deleteAllLogs = () => {
-  if(confirm("Delete all fill logs? This cannot be undone.")) {
+  if (confirm("Delete all fill logs? This cannot be undone.")) {
     log.resetStore();
     log.writeToLocalStorage();
     emit("close");
+  }
+};
+
+const addFakeLogEntry = () => {
+  if (areDebugFeaturesEnabled()) {
+    log.generateFakeLogEntry();
   }
 };
 </script>
@@ -28,9 +35,9 @@ const deleteAllLogs = () => {
     <header
       class="grid grid-cols-2 border-b border-black border-opacity-20 bg-white font-bold"
     >
-      <h1 class="px-2 py-3 text-2xl">📕 Fill Logs</h1>
+      <h1 class="px-2 py-3 text-2xl" @click="addFakeLogEntry">📕 Fill Logs</h1>
       <div class="justify-self-end py-3">
-        <button @click="deleteAllLogs" class="px-1 mx-2 align-middle">
+        <button @click="deleteAllLogs" class="mx-2 px-1 align-middle">
           <img src="../assets/trash.svg" alt="Close" class="h-6 w-6" />
         </button>
         <FillLogDownload class="mx-2 px-1 align-middle" />
