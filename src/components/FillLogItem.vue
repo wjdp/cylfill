@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { onLongPress } from "@vueuse/core";
-import { onMounted, ref } from "vue";
+import { getCurrentInstance, onMounted, ref } from "vue";
 import { LogEntryEnhanced } from "../service/log";
 import { formatTimePeriod, getTimePeriod } from "../util/time";
 import log from "../service/log";
@@ -13,24 +12,41 @@ const formatDateTime = (d: number) => {
   const date = new Date(d * 1000);
   return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 };
-
 const formatDuration = (d: number) => formatTimePeriod(getTimePeriod(d));
 
-const itemElementHook = ref<HTMLElement>();
-
-const onLongPressCallbackHook = (e: PointerEvent) => {
+// Implement our own long press handling as the vue-use one doesn't handle
+// subsequent presses on different elements well.
+const isPreTouching = ref<number>();
+const isTouching = ref<number>();
+const onTouchStart = () =>
+  (isPreTouching.value = window.setTimeout(
+    () => (isTouching.value = window.setTimeout(onLongPress, 300)),
+    120
+  ));
+const onTouchEnd = () => {
+  window.clearTimeout(isPreTouching.value);
+  window.clearTimeout(isTouching.value);
+  isPreTouching.value = undefined;
+  isTouching.value = undefined;
+};
+const onLongPress = () => {
+  isTouching.value = undefined;
   if (!confirm("Delete?")) {
     return;
   }
   log.deleteLogEntry(props.entry.id);
 };
-onMounted(() =>
-  onLongPress(itemElementHook, onLongPressCallbackHook, { delay: 300 })
-);
 </script>
 
 <template>
-  <li :key="entry.startTime" class="bg-white py-3 px-2" ref="itemElementHook">
+  <li
+    :key="entry.startTime"
+    class="bg-fade bg-white py-3 px-2"
+    :class="{ 'bg-red-200': isTouching !== undefined }"
+    @touchstart="onTouchStart"
+    @touchmove="onTouchEnd"
+    @touchend="onTouchEnd"
+  >
     <div class="text-xs text-gray-600">
       {{ formatDateTime(entry.startTime) }}
     </div>
@@ -51,5 +67,8 @@ onMounted(() =>
 
 <style lang="sass" scoped>
 .grid-fill-log-item
-    grid-template-columns: 1fr 4fr 3fr 3fr
+  grid-template-columns: 1fr 4fr 3fr 3fr
+
+.bg-fade
+  transition: background-color 290ms ease-out
 </style>
