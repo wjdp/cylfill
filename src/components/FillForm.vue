@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-import fill, { assertFillParameters, calculateFillTime } from "../service/fill";
-import { getTimePeriod, formatTimePeriod } from "../util/time";
+import fill, { FillParameters } from "../service/fill";
+import { getTimePeriod } from "../util/time";
 import FieldNumber from "./FieldNumber.vue";
 import AppButton from "./AppButton.vue";
 import FillTime from "./FillTime.vue";
@@ -11,64 +11,29 @@ import log from "../service/log";
 
 const showLogs = ref(false);
 
-const cylinderSize = ref<number | undefined>(fill.state.cylinderSize);
-const startingPressure = ref<number | undefined>(fill.state.startingPressure);
-const fillRate = ref<number | undefined>(fill.state.fillRate);
-const targetPressure = ref<number | undefined>(fill.state.targetPressure);
-
-const fillParams = computed(() => ({
-  cylinderSize: cylinderSize.value,
-  startingPressure: startingPressure.value,
-  fillRate: fillRate.value,
-  targetPressure: targetPressure.value,
-}));
-
-const onFieldInput = () => {
-  fill.setFillParameters(fillParams.value);
+const onFieldInput = (
+  field: keyof FillParameters,
+  value: number | undefined
+) => {
+  fill.setFillParameters({
+    [field]: value,
+  });
 };
 
+// Force window down to bottom when field is focused
 const onFieldFocus = () => {
   window.setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 100);
 };
 
 const fillTime = computed(() => {
-  const params = fillParams.value;
   try {
-    assertFillParameters(params);
+    return getTimePeriod(fill.getFillTime());
   } catch (e) {
     return undefined;
   }
-  if (startingPressure.value && startingPressure.value <= 0) {
-    return undefined;
-  }
-  if (targetPressure.value && targetPressure.value <= 0) {
-    return undefined;
-  }
-  if (
-    targetPressure.value &&
-    startingPressure.value &&
-    targetPressure.value < startingPressure.value
-  ) {
-    return undefined;
-  }
-  if (cylinderSize.value && cylinderSize.value <= 0) {
-    return undefined;
-  }
-  if (fillRate.value && fillRate.value <= 0) {
-    return undefined;
-  }
-  const time = calculateFillTime(params);
-  return getTimePeriod(time);
 });
 
 const startFilling = () => {
-  const params = fillParams.value;
-  try {
-    assertFillParameters(params);
-  } catch (e) {
-    return;
-  }
-  fill.setFillParameters(params);
   fill.startFilling();
 };
 </script>
@@ -83,36 +48,38 @@ const startFilling = () => {
         <label for="cylinderSize">Cylinder size</label>
         <FieldNumber
           id="cylinderSize"
-          v-model="cylinderSize"
-          @input="onFieldInput"
+          :value="fill.state.cylinderSize"
+          @update:model-value="onFieldInput('cylinderSize', $event)"
           @focus="onFieldFocus"
         />
         <p>litres</p>
 
         <label for="cylinderSize">Starting pressure</label>
         <FieldNumber
-          v-model="startingPressure"
-          @input="onFieldInput"
+          :value="fill.state.startingPressure"
+          @update:model-value="onFieldInput('startingPressure', $event)"
           @focus="onFieldFocus"
         />
         <p>bar</p>
 
         <label for="cylinderSize">Fill rate</label>
         <FieldNumber
-          v-model="fillRate"
-          @input="onFieldInput"
+          :value="fill.state.fillRate"
+          @update:model-value="onFieldInput('fillRate', $event)"
           @focus="onFieldFocus"
+          :class="{ 'border-yellow-100': fill.state.fillRateFromLog }"
         />
         <p>L/min</p>
 
         <label for="cylinderSize">Target pressure</label>
         <FieldNumber
-          v-model="targetPressure"
-          @input="onFieldInput"
+          :value="fill.state.targetPressure"
+          @update:model-value="onFieldInput('targetPressure', $event)"
           @focus="onFieldFocus"
         />
         <p>bar</p>
       </div>
+
       <div class="form-bg flex flex-row px-2 py-6">
         <AppButton
           v-if="log.hasLogs()"

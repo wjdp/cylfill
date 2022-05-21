@@ -5,6 +5,7 @@ import FillLogItem from "./FillLogItem.vue";
 import FillLogDownload from "./FillLogDownload.vue";
 import { getNow } from "../util/time";
 import { areDebugFeaturesEnabled } from "../util/debug";
+import fill from "../service/fill";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -25,6 +26,11 @@ const addFakeLogEntry = () => {
   if (areDebugFeaturesEnabled()) {
     log.generateFakeLogEntry();
   }
+};
+
+const setFillRate = (fillRate: number) => {
+  fill.setFillRateFromLog(Math.round(fillRate));
+  emit("close");
 };
 </script>
 
@@ -64,14 +70,20 @@ const addFakeLogEntry = () => {
       </div>
       <div>
         <p class="text-xs">Fill rate today</p>
-        <p v-if="logStats.fillRateToday">
+        <p
+          v-if="logStats.fillRateToday"
+          @click="setFillRate(logStats.fillRateToday)"
+        >
           {{ Math.round(logStats.fillRateToday) }} L/m
         </p>
         <p v-else class="font-light">—</p>
       </div>
       <div>
         <p class="text-xs">Lifetime fill rate</p>
-        <p v-if="logStats.fillRateAll">
+        <p
+          v-if="logStats.fillRateAll"
+          @click="setFillRate(logStats.fillRateAll)"
+        >
           {{ Math.round(logStats.fillRateAll) }} L/m
         </p>
         <p v-else class="font-light">—</p>

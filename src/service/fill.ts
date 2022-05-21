@@ -13,6 +13,7 @@ interface FillStoreState {
   cylinderSize?: number;
   startingPressure?: number;
   fillRate?: number;
+  fillRateFromLog: boolean;
   targetPressure?: number;
   startTime?: number;
   endTime?: number;
@@ -22,6 +23,7 @@ const DEFAULT_STORE_STATE = {
   cylinderSize: 12,
   startingPressure: undefined,
   fillRate: 110,
+  fillRateFromLog: false,
   targetPressure: 232,
   startTime: undefined,
   endTime: undefined,
@@ -95,6 +97,21 @@ const fill = {
   },
   setFillParameters: (params: Partial<FillParameters>) => {
     Object.assign(state, params);
+    if (params.fillRate) {
+      state.fillRateFromLog = false;
+    }
+  },
+  setFillRateFromLog: (fillRate: number) => {
+    state.fillRate = fillRate;
+    state.fillRateFromLog = true;
+  },
+  getPartialFillParameters: (): Partial<FillParameters> => {
+    return {
+      cylinderSize: state.cylinderSize,
+      startingPressure: state.startingPressure,
+      fillRate: state.fillRate,
+      targetPressure: state.targetPressure,
+    };
   },
   getFillParameters: (): FillParameters => {
     try {
@@ -108,6 +125,10 @@ const fill = {
       fillRate: state.fillRate,
       targetPressure: state.targetPressure,
     };
+  },
+  getFillTime: (): number => {
+    const params = fill.getFillParameters();
+    return calculateFillTime(params);
   },
   startFilling: (): number => {
     try {
