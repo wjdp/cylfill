@@ -23,6 +23,6 @@ const onInput = (event: Event) => {
     :value="modelValue"
     @input="onInput"
     min="0"
-    class="rounded-lg border-2 border-slate-500 bg-transparent px-2 py-4 font-bold"
+    class="rounded-lg border-2 border-slate-500 bg-transparent px-2 py-4 font-bold focus:border-white focus:outline-none"
   />
 </template>
