@@ -47,11 +47,23 @@ export function assertFillParameters(
     "targetPressure",
   ]);
   t.isNumber(input.cylinderSize, "cylinderSize");
-  t.isNumber(input.startingPressure, "startingPressure");
-  t.isNumber(input.fillRate, "fillRate");
+  if (input.cylinderSize <= 0) {
+    throw new Error("cylinderSize must be greater than 0");
+  }
   t.isNumber(input.targetPressure, "targetPressure");
+  if (input.targetPressure <= 0) {
+    throw new Error("targetPressure must be greater than 0");
+  }
+  t.isNumber(input.startingPressure, "startingPressure");
+  if (input.startingPressure <= 0) {
+    throw new Error("startingPressure must be greater than 0");
+  }
   if (input.startingPressure > input.targetPressure) {
-    throw new Error("starting pressure must be less than target pressure");
+    throw new Error("startingPressure must be less than targetPressure");
+  }
+  t.isNumber(input.fillRate, "fillRate");
+  if (input.fillRate < 0) {
+    throw new Error("fillRate must be greater than 0");
   }
 }
 
