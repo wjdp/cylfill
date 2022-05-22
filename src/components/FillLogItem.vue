@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { getCurrentInstance, onMounted, ref } from "vue";
+import { ref } from "vue";
 import { LogEntryEnhanced } from "../service/log";
-import { formatTimePeriod, getTimePeriod } from "../util/time";
+import { formatTimePeriodHMS, getTimePeriod } from "../util/time";
 import log from "../service/log";
 
 const props = defineProps<{
@@ -12,7 +12,7 @@ const formatDateTime = (d: number) => {
   const date = new Date(d * 1000);
   return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 };
-const formatDuration = (d: number) => formatTimePeriod(getTimePeriod(d));
+const formatDuration = (d: number) => formatTimePeriodHMS(getTimePeriod(d));
 
 // Implement our own long press handling as the vue-use one doesn't handle
 // subsequent presses on different elements well.
