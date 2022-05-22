@@ -11,6 +11,9 @@ import FillForm from "./components/FillForm.vue";
 import BgFill from "./components/BgFill.vue";
 import FillStatus from "./components/FillStatus.vue";
 import fill from "./service/fill";
+import { trackEvent } from "./analytics";
+
+trackEvent("App started");
 </script>
 
 <template>

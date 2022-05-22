@@ -15,6 +15,7 @@ import type { UseWebNotificationOptions } from "@vueuse/core";
 import FillTime from "./FillTime.vue";
 import log from "../service/log";
 import FillCompleteInfo from "./FillCompleteInfo.vue";
+import { trackEvent } from "../analytics";
 
 const fillTimeRemaining = ref<TimePeriod>();
 const litresFilled = ref<number>();
@@ -65,6 +66,7 @@ const cancelFilling = () => {
   ) {
     return;
   }
+  trackEvent("Cancelled filling");
   fill.stopFilling();
 };
 
@@ -93,6 +95,7 @@ const finishFilling = () => {
     startTime: fill.state.startTime,
     endTime: getNow(),
   });
+  trackEvent("Finished filling");
   fill.stopFilling();
 };
 </script>

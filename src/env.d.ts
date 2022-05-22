@@ -11,4 +11,5 @@ interface ImportMetaEnv {
   VITE_COMMIT_SHA?: string;
   VITE_SENTRY_DSN?: string;
   VITE_DEBUG_FEATURES?: string;
+  VITE_PLAUSIBLE_DOMAIN?: string;
 }

@@ -6,6 +6,7 @@ import FillLogDownload from "./FillLogDownload.vue";
 import { getNow } from "../util/time";
 import { areDebugFeaturesEnabled } from "../util/debug";
 import fill from "../service/fill";
+import { trackEvent } from "../analytics";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -16,6 +17,7 @@ const logStats = computed(() => log.getLogStats(getNow()));
 
 const deleteAllLogs = () => {
   if (confirm("Delete all fill logs? This cannot be undone.")) {
+    trackEvent("Cleared fill logs");
     log.resetStore();
     log.writeToLocalStorage();
     emit("close");
@@ -30,8 +32,11 @@ const addFakeLogEntry = () => {
 
 const setFillRate = (fillRate: number) => {
   fill.setFillRateFromLog(Math.round(fillRate));
+  trackEvent("Used fill rate from log");
   emit("close");
 };
+
+trackEvent("Viewed fill logs");
 </script>
 
 <template>

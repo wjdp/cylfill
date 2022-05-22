@@ -8,6 +8,7 @@ import FillTime from "./FillTime.vue";
 import AppIntro from "./AppIntro.vue";
 import FillLogs from "./FillLogs.vue";
 import log from "../service/log";
+import { trackEvent } from "../analytics";
 
 const showLogs = ref(false);
 
@@ -34,6 +35,7 @@ const fillTime = computed(() => {
 });
 
 const startFilling = () => {
+  trackEvent("Started filling");
   fill.startFilling();
 };
 </script>

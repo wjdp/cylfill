@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+import { trackEvent } from "../analytics";
 import { updateServiceWorker } from "../pwa";
 
 const updateNeeded = updateServiceWorker.needRefresh;
@@ -7,6 +8,7 @@ const doingUpdate = ref(false);
 
 const doUpdate = async () => {
   doingUpdate.value = true;
+  trackEvent("Updated app");
   await updateServiceWorker.updateServiceWorker();
   window.location.reload();
 };
