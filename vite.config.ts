@@ -8,6 +8,9 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
+      strategies: "injectManifest",
+      srcDir: "src",
+      filename: "sw.ts",
       includeAssets: [
         "cylfill-rect.png",
         "cylfill-logo-192.png",

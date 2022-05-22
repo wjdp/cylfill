@@ -19,10 +19,6 @@ export const showNotification = async (
   if ((await getNotificationState()) !== "granted") return;
   const swRegistration = await navigator.serviceWorker.ready;
   swRegistration.showNotification(title, { ...DEFAULT_OPTIONS, ...options });
-  swRegistration.addEventListener("notificationclick", function (event) {
-    event.notification.close();
-    window.open(import.meta.env.BASE_URL);
-  });
 };
 
 export const closeNotificationsByTag = async (tag: string) => {
