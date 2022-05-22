@@ -16,6 +16,10 @@ import FillTime from "./FillTime.vue";
 import log from "../service/log";
 import FillCompleteInfo from "./FillCompleteInfo.vue";
 import { trackEvent } from "../analytics";
+import {
+  closeNotificationsByTag,
+  showNotification,
+} from "../service/notification";
 
 const fillTimeRemaining = ref<TimePeriod>();
 const litresFilled = ref<number>();
@@ -43,7 +47,10 @@ const updateFillStats = () => {
 };
 
 const onFull = () => {
-  // TODO: Notify user that fill is complete
+  showNotification("Fill Complete", {
+    tag: "fill-complete",
+    body: "The tank should be full.",
+  });
 };
 
 let interval: number;
@@ -67,6 +74,7 @@ const cancelFilling = () => {
     return;
   }
   trackEvent("Cancelled filling");
+  closeNotificationsByTag("fill-complete");
   fill.stopFilling();
 };
 
@@ -96,6 +104,7 @@ const finishFilling = () => {
     endTime: getNow(),
   });
   trackEvent("Finished filling");
+  closeNotificationsByTag("fill-complete");
   fill.stopFilling();
 };
 </script>
