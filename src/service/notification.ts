@@ -1,6 +1,9 @@
-type NotificationState = "default" | "denied" | "granted";
+type NotificationState = "default" | "denied" | "granted" | "unsupported";
 
 export const getNotificationState = async (): Promise<NotificationState> => {
+  if (!("Notification" in window)) {
+    return "unsupported";
+  }
   return Notification.permission;
 };
 
