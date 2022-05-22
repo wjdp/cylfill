@@ -3,16 +3,16 @@ import { updateServiceWorker } from "../pwa";
 
 const updateNeeded = updateServiceWorker.needRefresh;
 
-const updateInfo = () =>
-  alert(
-    "You may need to close and re-open the app a few times to get the update"
-  );
+const doUpdate = async () => {
+  await updateServiceWorker.updateServiceWorker();
+  window.location.reload();
+};
 </script>
 
 <template>
   <p v-if="updateNeeded" class="text-center">
     <span
-      @click="updateInfo"
+      @click="doUpdate"
       class="rounded-full bg-black bg-opacity-80 px-2 py-1 align-middle font-bold"
     >
       <img
