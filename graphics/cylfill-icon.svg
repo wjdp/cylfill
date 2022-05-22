@@ -17,9 +17,9 @@
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
    sodipodi:docname="cylfill-icon.svg"
    inkscape:export-filename="/home/will/local/cylfill/public/cylfill-logo-192.png"
-   inkscape:export-xdpi="10.730447"
-   inkscape:export-ydpi="10.730447"
-   enable-background="new">
+   inkscape:export-xdpi="14.992021"
+   inkscape:export-ydpi="14.992021"
+   style="enable-background:new">
   <defs
      id="defs4">
     <linearGradient
@@ -102,6 +102,16 @@
          in2="BackgroundImage"
          id="feBlend945" />
     </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4110"
+       id="linearGradient4707"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="scale(1,1.001095)"
+       x1="986.95599"
+       y1="1023.3102"
+       x2="320.09265"
+       y2="156.82477" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -111,10 +121,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.64000003"
-     inkscape:cx="625.56415"
+     inkscape:cx="638.8454"
      inkscape:cy="671.26277"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer5"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -209,7 +219,9 @@
        empspacing="5"
        visible="true"
        enabled="true"
-       snapvisiblegridlinesonly="true" />
+       snapvisiblegridlinesonly="true"
+       originx="0"
+       originy="0" />
     <sodipodi:guide
        orientation="1,0"
        position="511.68014,430.8932"
@@ -224,7 +236,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -234,14 +246,15 @@
      inkscape:label="Background"
      style="display:inline">
     <rect
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:url(#linearGradient4116);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;enable-background:accumulate"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:url(#linearGradient4707);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;enable-background:accumulate"
        id="rect4108"
        width="1024"
        height="1024"
        x="0"
        y="1.5099033e-14"
        inkscape:export-xdpi="12"
-       inkscape:export-ydpi="12" />
+       inkscape:export-ydpi="12"
+       inkscape:export-filename="/home/will/local/cylfill/public/cylfill-rect.png" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -251,19 +264,20 @@
     <path
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        clip-path="none"
-       d="M 706.03711 378.21875 C 623.3565 379.18747 536.78178 462.91823 454.0957 462.73438 C 366.3073 462.53917 264.01572 380.65717 176.25 382.66211 C 113.73976 384.0901 50.944343 404.71332 0 440.98438 L 0 1024 L 1024 1024 L 1024 461.28125 C 1016.3652 463.8935 1008.1457 465.3545 999.21484 465.32227 C 906.10056 464.98615 799.14561 377.12785 706.03711 378.21875 z "
-       id="path85" />
+       d="M 706.03711,461.03125 C 623.3565,461.99997 536.78178,545.73072 454.0957,545.54688 366.3073,545.35167 264.01572,463.46967 176.25,465.47461 113.73976,466.9026 50.944343,487.52581 0,523.79688 V 1024 H 1024 V 544.09375 c -7.6348,2.61225 -15.8543,4.07325 -24.78516,4.04102 -93.11428,-0.33612 -200.06923,-88.19442 -293.17773,-87.10352 z"
+       id="path85"
+       inkscape:connector-curvature="0" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="Text"
-     style="filter:url(#filter943)">
+     style="display:none;filter:url(#filter943)">
     <flowRoot
        xml:space="preserve"
        id="flowRoot935"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:Inter;-inkscape-font-specification:Inter;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(6.7737814,0,0,6.7737814,-543.08515,-1099.6907)"><flowRegion
+       transform="matrix(9.4884962,0,0,9.4884962,-821.80124,-1691.0326)"><flowRegion
          id="flowRegion937"><rect
            id="rect939"
            width="783.34167"
@@ -271,7 +285,7 @@
            x="101.6466"
            y="209.72238" /></flowRegion><flowPara
          id="flowPara941"
-         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-family:Inter;-inkscape-font-specification:'Inter Semi-Bold';fill:#ffffff;fill-opacity:1">12:34</flowPara></flowRoot>  </g>
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-family:Inter;-inkscape-font-specification:'Inter Semi-Bold';letter-spacing:-1.0696131px;word-spacing:0px;fill:#ffffff;fill-opacity:1">1:23</flowPara></flowRoot>  </g>
   <g
      inkscape:label="BORDER"
      inkscape:groupmode="layer"

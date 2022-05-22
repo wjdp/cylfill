@@ -37,7 +37,7 @@ const version = import.meta.env.VITE_COMMIT_SHA?.slice(0, 6) || "unknown";
     >
       with debug features!
     </p>
-    <UpdateAvailable class="my-2" />
+    <UpdateAvailable class="my-4" />
   </section>
 </template>
 
