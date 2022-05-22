@@ -75,16 +75,17 @@ onUnmounted(() => window.clearInterval(fillingTimer));
 <style lang="sass" scoped>
 #bg-fill
   transition: background 0.5s ease-in-out
+  background-size: 500% 200%
 
 .bg-full
-  background: linear-gradient(-45deg, #00ff00, #aaff00, #00ffaa, #ddffdd)
-  background-size: 400% 400%
-  animation: gradient 3s ease infinite
+  background: linear-gradient(115deg, #23f5ab,#00ff00,#aaff00,#23f5ab)
+  animation: gradient 10s ease infinite
+
 
 .bg-filling
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)
-  background-size: 400% 400%
-  animation: gradient 15s ease infinite
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab,#ee7752, #e73c7e)
+  animation: gradient 20s ease infinite
+
 
 @keyframes gradient
   0%
