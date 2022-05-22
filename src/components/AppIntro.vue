@@ -2,6 +2,7 @@
 import { GITHUB_PROJECT_URL } from "../constants";
 import { areDebugFeaturesEnabled } from "../util/debug";
 import UpdateAvailable from "./UpdateAvailable.vue";
+import NotificationEnabler from "./NotificationEnabler.vue";
 
 const version = import.meta.env.VITE_COMMIT_SHA?.slice(0, 6) || "unknown";
 </script>
@@ -38,6 +39,7 @@ const version = import.meta.env.VITE_COMMIT_SHA?.slice(0, 6) || "unknown";
       with debug features!
     </p>
     <UpdateAvailable class="my-4" />
+    <NotificationEnabler class="my-4" />
   </section>
 </template>
 
