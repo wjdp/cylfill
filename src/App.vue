@@ -5,6 +5,7 @@ import "@fontsource/inter/latin-700.css";
 import "@fontsource/inter/latin-400.css";
 import "@fontsource/inter/latin-200.css";
 import "./tailwind.css";
+import "./transitions.sass";
 
 import FillForm from "./components/FillForm.vue";
 import BgFill from "./components/BgFill.vue";
