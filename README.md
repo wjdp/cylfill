@@ -38,6 +38,10 @@ As the app is aggressively cached by a service worker, used for offline support,
 2. Close every instance of the app you have open
 3. Re-open the app
 
+# Analytics & crash logs
+
+The app runs analytics to provide insight into how it's used and to help with improvements. You can view all analytics data [on Plausible](https://plausible.io/cylfill.wjdp.uk). I also collect crash logs using [Sentry](https://sentry.io).
+
 # Acknowledgements
 
 - Icons by [Tabler](https://tabler.io/)
