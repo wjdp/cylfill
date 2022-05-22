@@ -7,6 +7,9 @@ Go to **https://cylfill.wjdp.uk/** to try it out.
 ## Features
 
 - Runs a countdown for how long a cylinder should take to fill given: size, starting and desired pressure and fill rate.
+- Notifies you when fill should be complete. Caveat emptor:
+  - Only on devices that support it, [excludes iOS for now](https://caniuse.com/notifications).
+  - If the device kills the app before fill is complete notification will not be sent.
 - Works offline, you just have to visit the URL once.
 - Stores state to local storage, you can close and re-open while using the app.
 - Stores logs of fills to history, currently only stored locally so not shared with other users.
