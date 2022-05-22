@@ -23,13 +23,13 @@ const doUpdate = async () => {
       <img
         v-if="doingUpdate"
         src="../assets/refresh.svg"
-        class="inline h-4 w-4 animate-spin"
+        class="inline h-5 w-5 animate-spin"
         alt="Update"
       />
       <img
         v-else
         src="../assets/arrow-up-circle.svg"
-        class="inline h-4 w-4"
+        class="inline h-5 w-5"
         alt="Update"
       />
       Update Available
