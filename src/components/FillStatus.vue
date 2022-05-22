@@ -9,9 +9,6 @@ import {
 } from "../util/time";
 import AppButton from "./AppButton.vue";
 import * as t from "typed-assert";
-import { computed } from "@vue/reactivity";
-import { useTitle, useWebNotification } from "@vueuse/core";
-import type { UseWebNotificationOptions } from "@vueuse/core";
 import FillTime from "./FillTime.vue";
 import log from "../service/log";
 import FillCompleteInfo from "./FillCompleteInfo.vue";
@@ -25,7 +22,6 @@ const fillTimeRemaining = ref<TimePeriod>();
 const litresFilled = ref<number>();
 const currentPressure = ref<number>();
 const full = ref<boolean>(false);
-const pageTitle = useTitle();
 
 const updateFillStats = () => {
   const now = getNow();
@@ -43,7 +39,6 @@ const updateFillStats = () => {
     full.value = true;
     onFull();
   }
-  pageTitle.value = `${formatTimePeriod(fillTimeRemaining.value)} - cylfill`;
 };
 
 const onFull = () => {
@@ -62,7 +57,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearInterval(interval);
-  pageTitle.value = "cylfill";
 });
 
 const cancelFilling = () => {
