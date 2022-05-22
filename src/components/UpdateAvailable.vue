@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+import { ref } from "vue";
 import { updateServiceWorker } from "../pwa";
 
 const updateNeeded = updateServiceWorker.needRefresh;
+const doingUpdate = ref(false);
 
 const doUpdate = async () => {
+  doingUpdate.value = true;
   await updateServiceWorker.updateServiceWorker();
   window.location.reload();
 };
@@ -13,11 +16,18 @@ const doUpdate = async () => {
   <p v-if="updateNeeded" class="text-center">
     <span
       @click="doUpdate"
-      class="rounded-full bg-black bg-opacity-80 px-2 py-1 align-middle font-bold"
+      class="rounded-full bg-black bg-opacity-80 px-3 py-1 pb-1.5 align-middle font-bold"
     >
       <img
+        v-if="doingUpdate"
+        src="../assets/refresh.svg"
+        class="inline h-4 w-4 animate-spin"
+        alt="Update"
+      />
+      <img
+        v-else
         src="../assets/arrow-up-circle.svg"
-        class="inline h-5"
+        class="inline h-4 w-4"
         alt="Update"
       />
       Update Available
