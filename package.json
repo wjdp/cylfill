@@ -6,6 +6,7 @@
     "dev": "vite",
     "tsc": "vue-tsc --noEmit",
     "build": "VITE_COMMIT_SHA=$CF_PAGES_COMMIT_SHA vite build",
+    "build:cf": "VITE_COMMIT_SHA=$CF_PAGES_COMMIT_SHA vite build --base $CF_PAGES_URL",
     "preview": "vite preview",
     "preview:https": "PORT=2022 serve dist",
     "test": "vitest",
