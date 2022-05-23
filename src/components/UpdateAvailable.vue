@@ -11,6 +11,8 @@ const doUpdate = async () => {
   trackEvent("Updated app");
   await updateServiceWorker.updateServiceWorker();
   window.location.reload();
+  window.setTimeout(() => window.location.reload(), 1000);
+  window.setTimeout(() => (window.location = self.location), 1500);
 };
 </script>
 
